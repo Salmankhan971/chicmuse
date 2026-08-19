@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChicMuse Admin | Product Manager</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="admin-page">
+  <main class="admin-shell">
+    <section class="admin-login" id="loginPanel" aria-labelledby="loginTitle">
+      <a class="brand" href="index.html" aria-label="Back to ChicMuse website">
+        <span class="brand-heart">♡</span>
+        <strong>ChicMuse</strong>
+        <small>FASHION FINDS</small>
+      </a>
+      <p class="eyebrow">Admin only</p>
+      <h1 id="loginTitle">Sign in to manage products.</h1>
+      <form id="loginForm" class="admin-form">
+        <label>Admin email <input id="adminUser" type="email" autocomplete="username" required placeholder="you@example.com" /></label>
+        <label>Password <input id="adminPass" type="password" autocomplete="current-password" required placeholder="Enter password" /></label>
+        <button type="submit">SIGN IN</button>
+        <p class="form-message" id="loginMessage" role="status"></p>
+      </form>
+      <a class="admin-back" href="index.html">Back to website</a>
+    </section>
+
+    <section class="admin-workspace" id="adminWorkspace" hidden>
+      <header class="admin-header">
+        <a class="brand" href="index.html">
+          <span class="brand-heart">♡</span>
+          <strong>ChicMuse</strong>
+          <small>FASHION FINDS</small>
+        </a>
+        <div>
+          <a class="admin-open" href="index.html">View Website</a>
+          <button class="admin-open" type="button" id="logoutButton">Logout</button>
+        </div>
+      </header>
+
+      <div class="admin-layout">
+        <section class="admin-card">
+          <p class="eyebrow">Product editor</p>
+          <h2>Manage Products</h2>
+          <p class="admin-note">Add product title, category, description, price, image upload and affiliate backlink. Product titles and Shop Now buttons use the affiliate link.</p>
+          <form id="productForm" class="admin-form">
+            <input type="hidden" id="productId" />
+            <label>Product title <input id="productName" required placeholder="Blush Satin Midi Dress" /></label>
+            <label>Category
+              <select id="productCategory" required>
+                <option value="outfits">Outfits</option>
+                <option value="handbags">Handbags</option>
+                <option value="shoes">Shoes</option>
+                <option value="jewelry">Jewelry</option>
+                <option value="accessories">Accessories</option>
+              </select>
+            </label>
+            <label>Description <textarea id="productDescription" required placeholder="Soft, polished and easy to style."></textarea></label>
+            <label>Price <input id="productPrice" required placeholder="$39.99" /></label>
+            <label>Affiliate/backlink URL <input id="productLink" type="url" placeholder="https://www.amazon.com/..." /></label>
+            <label>Main image upload <input id="productImageUpload" type="file" accept="image/*" /></label>
+            <label>Current image <input id="productImage" readonly placeholder="Upload an image or keep existing demo image" /></label>
+            <label>Extra image URLs <textarea id="productImages" placeholder="Optional: one image URL per line"></textarea></label>
+            <label>Badge <input id="productBadge" placeholder="NEW or BESTSELLER" /></label>
+            <div class="admin-actions">
+              <button type="submit">Save Product</button>
+              <button type="button" id="resetForm">Clear</button>
+              <button type="button" id="resetProducts">Restore Demo Products</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="admin-card">
+          <p class="eyebrow">Live catalog</p>
+          <h2>Products</h2>
+          <div class="admin-list" id="adminList"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="supabase-config.js"></script>
+  <script src="supabase-api.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

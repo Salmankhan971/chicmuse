@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChicMuse Product Find</title>
+  <meta name="description" content="View a ChicMuse fashion find with related affordable style picks." />
+  <meta name="robots" content="index, follow" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="announcement">FREE SHIPPING ON ORDERS OVER $50 + NEW FINDS EVERY WEEK</div>
+    <nav class="nav-shell product-nav" aria-label="Product navigation">
+      <a class="brand" href="index.html">
+        <span class="brand-heart">♡</span>
+        <strong>ChicMuse</strong>
+        <small>FASHION FINDS</small>
+      </a>
+      <a class="admin-open" href="index.html">Back to Shop</a>
+    </nav>
+  </header>
+
+  <main class="product-detail-shell">
+    <section class="product-detail" id="productDetail"></section>
+    <section class="related-section" aria-labelledby="relatedTitle">
+      <p class="eyebrow">More finds for this look</p>
+      <h2 id="relatedTitle">Related Products</h2>
+      <div class="related-list" id="relatedList"></div>
+    </section>
+  </main>
+
+  <script src="supabase-config.js"></script>
+  <script src="supabase-api.js"></script>
+  <script src="product.js"></script>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChicMuse Fashion Finds | Affordable Feminine Fashion</title>
+  <meta name="description" content="ChicMuse curates affordable women's outfits, handbags, shoes, jewelry and accessories with a polished feminine boutique feel." />
+  <meta property="og:title" content="ChicMuse Fashion Finds" />
+  <meta property="og:description" content="Affordable feminine fashion finds curated for outfits, handbags, shoes, jewelry and accessories." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/images/hero.jpg" />
+  <meta name="theme-color" content="#f7ece8" />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg" />
+  <link rel="apple-touch-icon" href="assets/icons/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="announcement">FREE SHIPPING ON ORDERS OVER $50 + NEW FINDS EVERY WEEK</div>
+    <nav class="nav-shell" aria-label="Primary navigation">
+      <button class="icon-button menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links left-links">
+        <a href="#home">Home</a>
+        <a href="#shop">Shop</a>
+        <a href="#outfits">Outfits</a>
+        <a href="#handbags">Handbags</a>
+      </div>
+      <a class="brand" href="#home" aria-label="ChicMuse home">
+        <span class="brand-heart">♡</span>
+        <strong>ChicMuse</strong>
+        <small>FASHION FINDS</small>
+      </a>
+      <div class="nav-links right-links">
+        <a href="#shoes">Shoes</a>
+        <a href="#jewelry">Jewelry</a>
+        <a href="#about">About</a>
+      </div>
+      <div class="nav-actions" aria-label="Shopping tools">
+        <button class="icon-button" type="button" id="searchOpen" aria-label="Open search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m16 16 4 4"></path></svg>
+        </button>
+        <button class="icon-button wishlist-link" type="button" aria-label="View wishlist">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 5.8a5.1 5.1 0 0 0-7.2 0L12 7.4l-1.6-1.6a5.1 5.1 0 0 0-7.2 7.2L12 21l8.8-8a5.1 5.1 0 0 0 0-7.2Z"></path></svg>
+        </button>
+        <button class="icon-button" type="button" aria-label="Shopping bag">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 13H7L6 8Z"></path><path d="M9 8a3 3 0 0 1 6 0"></path></svg>
+        </button>
+      </div>
+    </nav>
+    <div class="mobile-panel" id="mobilePanel">
+      <a href="#home">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#outfits">Outfits</a>
+      <a href="#handbags">Handbags</a>
+      <a href="#shoes">Shoes</a>
+      <a href="#jewelry">Jewelry</a>
+      <a href="#about">About</a>
+    </div>
+  </header>
+
+  <div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-labelledby="searchTitle" hidden>
+    <div class="search-card">
+      <button class="icon-button search-close" type="button" id="searchClose" aria-label="Close search">×</button>
+      <p class="eyebrow" id="searchTitle">Search ChicMuse</p>
+      <input type="search" id="searchInput" placeholder="Try handbags, satin flats, gold hoops..." />
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">CHIC • FEMININE • AFFORDABLE</p>
+        <h1>Affordable Fashion.<span>Effortless You.</span></h1>
+        <p class="hero-text">Discover cute outfits, classy accessories and fashion finds that look expensive without the price tag.</p>
+        <a class="primary-cta" href="#shop">SHOP THE LOOK <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="hero-media">
+        <img src="assets/images/hero.jpg" alt="Elegant cream and blush fashion accessories styled with flowers" />
+        <div class="curated-badge">CURATED<br />FOR HER</div>
+      </div>
+    </section>
+
+    <section class="benefits" aria-label="Shopping benefits">
+      <article>
+        <span class="line-icon">◇</span>
+        <h3>Affordable Finds</h3>
+        <p>Look expensive for less</p>
+      </article>
+      <article>
+        <span class="line-icon">✧</span>
+        <h3>Trendy Styles</h3>
+        <p>Fresh styles every week</p>
+      </article>
+      <article>
+        <span class="line-icon">♡</span>
+        <h3>Quality Picks</h3>
+        <p>Handpicked with love</p>
+      </article>
+      <article>
+        <span class="line-icon">✓</span>
+        <h3>Shop With Confidence</h3>
+        <p>Easy returns & support</p>
+      </article>
+    </section>
+
+    <section class="section" id="shop" aria-labelledby="categoryTitle">
+      <div class="section-heading">
+        <p class="eyebrow">Pinterest-ready finds</p>
+        <h2 id="categoryTitle">Shop by Category</h2>
+      </div>
+      <div class="category-grid">
+        <a class="category-card" id="outfits" href="#trending">
+          <img loading="lazy" src="assets/images/outfit.jpg" alt="Soft neutral women's outfit inspiration" />
+          <span>Outfits</span><small>Shop Now →</small>
+        </a>
+        <a class="category-card" id="handbags" href="#trending">
+          <img loading="lazy" src="assets/images/handbag.jpg" alt="Blush handbag styled on a boutique surface" />
+          <span>Handbags</span><small>Shop Now →</small>
+        </a>
+        <a class="category-card" id="shoes" href="#trending">
+          <img loading="lazy" src="assets/images/shoes.jpg" alt="Elegant feminine shoes in soft colors" />
+          <span>Shoes</span><small>Shop Now →</small>
+        </a>
+        <a class="category-card" id="jewelry" href="#trending">
+          <img loading="lazy" src="assets/images/jewelry.jpg" alt="Delicate gold jewelry close up" />
+          <span>Jewelry</span><small>Shop Now →</small>
+        </a>
+        <a class="category-card" id="accessories" href="#trending">
+          <img loading="lazy" src="assets/images/hero.jpg" alt="Fashion accessories with soft blush styling details" />
+          <span>Accessories</span><small>Shop Now →</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="edit-section" id="about">
+      <div class="edit-copy">
+        <p class="eyebrow">THE CHICMUSE EDIT</p>
+        <h2>Small finds.<br />Big style.<br />Huge impact.</h2>
+        <p>Easy pieces you can mix, match and wear again and again.</p>
+        <a class="secondary-cta" href="#trending">EXPLORE STYLES <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="edit-image">
+        <img loading="lazy" src="assets/images/outfit.jpg" alt="Woman shopping a curated feminine fashion rack" />
+      </div>
+    </section>
+
+    <section class="section products-section" id="trending" aria-labelledby="trendingTitle">
+      <div class="products-top">
+        <div>
+          <p class="eyebrow">Fresh boutique picks</p>
+          <h2 id="trendingTitle">Trending Now ♡</h2>
+        </div>
+      </div>
+      <div class="filters" aria-label="Product filters">
+        <button class="filter active" type="button" data-filter="all">ALL</button>
+        <button class="filter" type="button" data-filter="outfits">OUTFITS</button>
+        <button class="filter" type="button" data-filter="handbags">HANDBAGS</button>
+        <button class="filter" type="button" data-filter="shoes">SHOES</button>
+        <button class="filter" type="button" data-filter="jewelry">JEWELRY</button>
+        <button class="filter" type="button" data-filter="accessories">ACCESSORIES</button>
+      </div>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section class="newsletter" aria-labelledby="newsletterTitle">
+      <div>
+        <p class="eyebrow">Pretty inbox moments</p>
+        <h2 id="newsletterTitle">Get the pretty finds before everyone else.</h2>
+        <p>Weekly fashion inspiration, affordable finds and styling ideas.</p>
+      </div>
+      <form class="newsletter-form" id="newsletterForm">
+        <label class="sr-only" for="newsletterEmail">Your email address</label>
+        <input id="newsletterEmail" type="email" placeholder="Your email address" required />
+        <button type="submit">JOIN US <span aria-hidden="true">→</span></button>
+        <span class="form-message" id="formMessage" role="status"></span>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <a class="brand footer-brand" href="#home">
+        <span class="brand-heart">♡</span>
+        <strong>ChicMuse</strong>
+        <small>FASHION FINDS</small>
+      </a>
+      <p>Affordable feminine fashion finds, curated with love.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#shop">Shop</a>
+      <a href="#outfits">Outfits</a>
+      <a href="#handbags">Handbags</a>
+      <a href="#shoes">Shoes</a>
+      <a href="#jewelry">Jewelry</a>
+      <a href="#about">About</a>
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Affiliate Disclosure</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="copyright">© 2026 ChicMuse. All rights reserved.</p>
+  </footer>
+
+  <script src="supabase-config.js"></script>
+  <script src="supabase-api.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

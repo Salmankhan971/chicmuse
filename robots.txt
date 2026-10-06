@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Admin panel is intentionally NOT disallowed here: it carries a
+# meta noindex tag, and blocking it in robots.txt would stop Google
+# from ever seeing that noindex directive.
+
+Sitemap: https://chicmuse.saadsdam55.workers.dev/sitemap.xml

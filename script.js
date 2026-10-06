@@ -132,6 +132,12 @@ function categoryLabel(category) {
   return category.charAt(0).toUpperCase() + category.slice(1);
 }
 
+// SEO: keep alt text descriptive and under 125 characters.
+function altText(value) {
+  const text = String(value || "ChicMuse fashion find");
+  return text.length > 125 ? text.slice(0, 125).replace(/\s+\S*$/, "") : text;
+}
+
 function productCard(product) {
   const liked = wishlist.includes(product.id) ? "active" : "";
   const badge = product.badge ? `<span class="badge">${product.badge}</span>` : "";
@@ -143,7 +149,7 @@ function productCard(product) {
         ${badge}
         <button class="heart-btn ${liked}" type="button" data-heart="${product.id}" aria-label="Save ${product.name} to wishlist">♡</button>
         <a href="${detailLink}" target="_blank" rel="noopener" aria-label="Open ${product.name} details">
-          <img loading="lazy" src="${product.image}" alt="${product.name}" />
+          <img loading="lazy" src="${product.image}" alt="${altText(product.name)}" />
         </a>
       </div>
       <div class="product-body">
@@ -210,7 +216,7 @@ function renderSearch(query) {
 
   searchResults.innerHTML = matches.length
     ? matches.map((product) => `
-      <a class="search-result" href="#trending">
+      <a class="search-result" href="product.html?id=${encodeURIComponent(product.id)}">
         <strong>${product.name}</strong>
         <span>${categoryLabel(product.category)} - ${product.price}</span>
       </a>

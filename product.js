@@ -19,15 +19,72 @@ function categoryLabel(category) {
   return category.charAt(0).toUpperCase() + category.slice(1);
 }
 
+// SEO: keep alt text descriptive and under 125 characters.
+function altText(value) {
+  const text = String(value || "ChicMuse fashion find");
+  return text.length > 125 ? text.slice(0, 125).replace(/\s+\S*$/, "") : text;
+}
+
+// SEO: keep social share tags in sync with the displayed product.
+function setSocialMeta(p, pageTitle, pageDesc) {
+  const siteUrl = "https://chicmuse.saadsdam55.workers.dev";
+  const productUrl = `${siteUrl}/product.html?id=${encodeURIComponent(p.id)}`;
+  const imgUrl = /^https?:\/\//i.test(p.image || "")
+    ? p.image
+    : `${siteUrl}/${p.image || "assets/images/og-default.jpg"}`;
+  const set = (attr, name, content) => {
+    const el = document.querySelector(`meta[${attr}="${name}"]`);
+    if (el) el.setAttribute("content", content);
+  };
+  set("property", "og:title", pageTitle);
+  set("property", "og:description", pageDesc);
+  set("property", "og:url", productUrl);
+  set("property", "og:image", imgUrl);
+  set("name", "twitter:title", pageTitle);
+  set("name", "twitter:description", pageDesc);
+  set("name", "twitter:image", imgUrl);
+}
+// SEO: unique meta description per product, 140-160 chars, keyword + CTA.
+function metaDescription(p) {
+  const cta = "Shop now at ChicMuse.";
+  let base = `${p.name || "Fashion find"} — ${p.description || ""}`.trim();
+  if ((base + " " + cta).length < 140 && p.category) {
+    base += ` Discover affordable ${categoryLabel(p.category).toLowerCase()} for women, curated for her.`;
+  }
+  const maxBase = 160 - cta.length - 1;
+  if (base.length > maxBase) {
+    base = base.slice(0, maxBase).replace(/\s+\S*$/, "");
+  }
+  return `${base} ${cta}`;
+}
+
 function renderProduct() {
-  document.title = `${product.name} | ChicMuse Fashion Finds`;
+  // SEO: unique title per product, 50-60 chars, keyword first, brand last.
+  const brandSuffix = " | ChicMuse";
+  const maxBaseLen = 60 - brandSuffix.length;
+  let base = product.name || "Fashion Find";
+  // Enrich short names with the category so the title reaches 50+ chars.
+  if ((base + brandSuffix).length < 50 && product.category) {
+    base = `${base} - ${categoryLabel(product.category)} for Women`;
+  }
+  if (base.length > maxBaseLen) {
+    base = base.slice(0, maxBaseLen).replace(/\s+\S*$/, "");
+  }
+  document.title = `${base}${brandSuffix}`;
+  const canonicalUrl = `https://chicmuse.saadsdam55.workers.dev/product.html?id=${encodeURIComponent(product.id)}`;
+  const canonicalLink = document.querySelector('link[rel="canonical"]');
+  if (canonicalLink) canonicalLink.href = canonicalUrl;
+  const descMeta = document.querySelector('meta[name="description"]');
+  const pageDesc = metaDescription(product);
+  if (descMeta) descMeta.content = pageDesc;
+  setSocialMeta(product, document.title, pageDesc);
   const affiliateLink = product.link || "#";
   const gallery = [product.image, ...(product.images || [])].filter(Boolean);
 
   productDetail.innerHTML = `
     <div class="detail-gallery">
-      <img class="detail-main-image" src="${product.image}" alt="${product.name}" />
-      ${gallery.length > 1 ? `<div class="detail-thumbs">${gallery.map((image) => `<img src="${image}" alt="${product.name} alternate view" />`).join("")}</div>` : ""}
+      <img class="detail-main-image" src="${product.image}" alt="${altText(product.name)}" fetchpriority="high" />
+      ${gallery.length > 1 ? `<div class="detail-thumbs">${gallery.map((image) => `<img src="${image}" alt="${altText(`${product.name} alternate view`)}" />`).join("")}</div>` : ""}
     </div>
     <div class="detail-copy">
       ${product.badge ? `<span class="badge detail-badge">${product.badge}</span>` : ""}
@@ -51,7 +108,7 @@ function renderRelated() {
   relatedList.innerHTML = items.map((item) => `
     <article class="related-item">
       <a href="product.html?id=${encodeURIComponent(item.id)}" target="_blank" rel="noopener">
-        <img src="${item.image}" alt="${item.name}" />
+        <img src="${item.image}" alt="${altText(item.name)}" />
       </a>
       <div>
         <a href="product.html?id=${encodeURIComponent(item.id)}" target="_blank" rel="noopener"><strong>${item.name}</strong></a>

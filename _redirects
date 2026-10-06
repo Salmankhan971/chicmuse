@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects (TASK 15: clean URLs).
+# Upgrade Cloudflare's automatic 307 clean-URL redirects to 301 for SEO.
+/privacy.html /privacy 301
+/disclosure.html /disclosure 301
+/contact.html /contact 301

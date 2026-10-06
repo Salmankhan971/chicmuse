@@ -287,7 +287,7 @@ h1 span {
   color: var(--rose);
   font-size: 20px;
 }
-.benefits h3 {
+.benefits h2, .benefits h3 {
   margin-top: 4px;
   font-family: "DM Sans", Inter, sans-serif;
   font-size: 14px;
@@ -1055,3 +1055,20 @@ h2 { font-size: clamp(32px, 4vw, 48px); }
 .legal li { margin-bottom: 8px; }
 .legal a { color: #b76e5d; }
 .legal .note { font-size: 14px; color: #8a7a72; }
+
+/* Breadcrumb (product pages) */
+.breadcrumb {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 20px 0;
+  font-size: 13px;
+  color: #8a7a72;
+}
+.breadcrumb a { color: #b76e5d; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb [aria-current="page"] { color: #4a3f38; }
+.deal-soon {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #8a7a72;
+}

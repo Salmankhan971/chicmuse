@@ -19,6 +19,34 @@ function categoryLabel(category) {
   return category.charAt(0).toUpperCase() + category.slice(1);
 }
 
+// WebP responsive variants for bundled local images (TASK 19).
+const WEBP_SRCSET = {
+  "assets/images/hero.jpg": "assets/images/hero-400.webp 400w, assets/images/hero-800.webp 800w, assets/images/hero.webp 900w",
+  "assets/images/dress.jpg": "assets/images/dress-400.webp 400w, assets/images/dress.webp 650w",
+  "assets/images/outfit.jpg": "assets/images/outfit-400.webp 400w, assets/images/outfit.webp 650w",
+  "assets/images/knit-set.jpg": "assets/images/knit-set-400.webp 400w, assets/images/knit-set.webp 650w",
+  "assets/images/handbag.jpg": "assets/images/handbag-400.webp 400w, assets/images/handbag.webp 650w",
+  "assets/images/shoes.jpg": "assets/images/shoes-400.webp 400w, assets/images/shoes.webp 650w",
+  "assets/images/jewelry.jpg": "assets/images/jewelry-400.webp 400w, assets/images/jewelry.webp 650w"
+};
+function webpSrcsetAttrs(localPath, sizes) {
+  const set = WEBP_SRCSET[localPath];
+  return set ? ` srcset="${set}" sizes="${sizes}"` : "";
+}
+
+// SEO: clean product URL slug — must match tools/prerender.js productSlug() exactly.
+function productSlug(p) {
+  const name = String(p.name || "fashion-find").toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || "fashion-find";
+  return `${name}-${String(p.id).slice(0, 8)}`;
+}
+function isUuid(id) {
+  const s = String(id || "");
+  return s.length >= 32 && s.includes("-");
+}
+
 // SEO: keep alt text descriptive and under 125 characters.
 function altText(value) {
   const text = String(value || "ChicMuse fashion find");
@@ -28,7 +56,9 @@ function altText(value) {
 // SEO: keep social share tags in sync with the displayed product.
 function setSocialMeta(p, pageTitle, pageDesc) {
   const siteUrl = "https://chicmuse.saadsdam55.workers.dev";
-  const productUrl = `${siteUrl}/product.html?id=${encodeURIComponent(p.id)}`;
+  const productUrl = isUuid(p.id)
+    ? `${siteUrl}/products/${productSlug(p)}`
+    : `${siteUrl}/product.html?id=${encodeURIComponent(p.id)}`;
   const imgUrl = /^https?:\/\//i.test(p.image || "")
     ? p.image
     : `${siteUrl}/${p.image || "assets/images/og-default.jpg"}`;
@@ -43,6 +73,32 @@ function setSocialMeta(p, pageTitle, pageDesc) {
   set("name", "twitter:title", pageTitle);
   set("name", "twitter:description", pageDesc);
   set("name", "twitter:image", imgUrl);
+  // SEO: dynamic Product JSON-LD for the legacy ?id= page (static pages have it baked in).
+  const siteUrlLd = "https://chicmuse.saadsdam55.workers.dev";
+  const ldImg = /^https?:\/\//i.test(p.image || "") ? p.image : `${siteUrlLd}/${p.image || "assets/images/og-default.jpg"}`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: p.name,
+    image: ldImg,
+    description: pageDesc,
+    brand: { "@type": "Brand", name: "ChicMuse" },
+    offers: {
+      "@type": "Offer",
+      url: productUrl,
+      priceCurrency: "USD",
+      price: String(p.price || "").replace(/[^0-9.]/g, "") || "0",
+      availability: "https://schema.org/InStock"
+    }
+  };
+  let ldEl = document.querySelector('script[data-product-schema]');
+  if (!ldEl) {
+    ldEl = document.createElement("script");
+    ldEl.type = "application/ld+json";
+    ldEl.setAttribute("data-product-schema", "true");
+    document.head.appendChild(ldEl);
+  }
+  ldEl.textContent = JSON.stringify(schema).replace(/<\/script/gi, "<\\/script");
 }
 // SEO: unique meta description per product, 140-160 chars, keyword + CTA.
 function metaDescription(p) {
@@ -68,10 +124,12 @@ function renderProduct() {
     base = `${base} - ${categoryLabel(product.category)} for Women`;
   }
   if (base.length > maxBaseLen) {
-    base = base.slice(0, maxBaseLen).replace(/\s+\S*$/, "");
+    base = base.slice(0, maxBaseLen).replace(/\s+\S*$/, "").replace(/[^a-zA-Z0-9]+$/, "");
   }
   document.title = `${base}${brandSuffix}`;
-  const canonicalUrl = `https://chicmuse.saadsdam55.workers.dev/product.html?id=${encodeURIComponent(product.id)}`;
+  const canonicalUrl = isUuid(product.id)
+    ? `https://chicmuse.saadsdam55.workers.dev/products/${productSlug(product)}`
+    : `https://chicmuse.saadsdam55.workers.dev/product.html?id=${encodeURIComponent(product.id)}`;
   const canonicalLink = document.querySelector('link[rel="canonical"]');
   if (canonicalLink) canonicalLink.href = canonicalUrl;
   const descMeta = document.querySelector('meta[name="description"]');
@@ -83,7 +141,7 @@ function renderProduct() {
 
   productDetail.innerHTML = `
     <div class="detail-gallery">
-      <img class="detail-main-image" src="${product.image}" alt="${altText(product.name)}" fetchpriority="high" />
+      <img class="detail-main-image" src="${product.image}"${webpSrcsetAttrs(product.image, "(max-width: 640px) 100vw, 560px")} alt="${altText(product.name)}" fetchpriority="high" />
       ${gallery.length > 1 ? `<div class="detail-thumbs">${gallery.map((image) => `<img src="${image}" alt="${altText(`${product.name} alternate view`)}" />`).join("")}</div>` : ""}
     </div>
     <div class="detail-copy">
@@ -105,13 +163,16 @@ function renderRelated() {
   const fallback = products.filter((item) => item.id !== product.id).slice(0, 6);
   const items = related.length ? related : fallback;
 
+  const itemHref = (item) => isUuid(item.id)
+    ? `products/${productSlug(item)}`
+    : `product.html?id=${encodeURIComponent(item.id)}`;
   relatedList.innerHTML = items.map((item) => `
     <article class="related-item">
-      <a href="product.html?id=${encodeURIComponent(item.id)}" target="_blank" rel="noopener">
+      <a href="${itemHref(item)}" target="_blank" rel="noopener">
         <img src="${item.image}" alt="${altText(item.name)}" />
       </a>
       <div>
-        <a href="product.html?id=${encodeURIComponent(item.id)}" target="_blank" rel="noopener"><strong>${item.name}</strong></a>
+        <a href="${itemHref(item)}" target="_blank" rel="noopener"><strong>${item.name}</strong></a>
         <span>${categoryLabel(item.category)} - ${item.price}</span>
         <a class="shop-now" href="${item.link || "#"}" target="_blank" rel="nofollow sponsored noopener">SHOP NOW →</a>
       </div>
@@ -120,10 +181,27 @@ function renderRelated() {
 }
 
 async function loadProductPage() {
+  // TASK 15: legacy ?id= URLs redirect (301-equivalent) to the clean static page.
+  const legacyId = params.get("id");
+  if (legacyId && isUuid(legacyId)) {
+    const legacyProduct = products.find((item) => item.id === legacyId);
+    if (legacyProduct) {
+      window.location.replace(`products/${productSlug(legacyProduct)}`);
+      return;
+    }
+  }
   try {
     products = await fetchProductsFromSupabase();
     localStorage.setItem("chicmuse-products", JSON.stringify(products));
     product = products.find((item) => item.id === params.get("id")) || product || products[0];
+    // Retry redirect with fresh catalog if the cached list missed it.
+    if (legacyId && isUuid(legacyId)) {
+      const fresh = products.find((item) => item.id === legacyId);
+      if (fresh) {
+        window.location.replace(`products/${productSlug(fresh)}`);
+        return;
+      }
+    }
   } catch (error) {
     console.warn("Using cached/demo products until Supabase setup is complete.", error);
   }

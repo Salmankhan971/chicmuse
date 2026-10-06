@@ -128,6 +128,37 @@ function saveWishlist() {
   localStorage.setItem("chicmuse-wishlist", JSON.stringify(wishlist));
 }
 
+// WebP responsive variants for bundled local images (TASK 19).
+const WEBP_SRCSET = {
+  "assets/images/hero.jpg": "assets/images/hero-400.webp 400w, assets/images/hero-800.webp 800w, assets/images/hero.webp 900w",
+  "assets/images/dress.jpg": "assets/images/dress-400.webp 400w, assets/images/dress.webp 650w",
+  "assets/images/outfit.jpg": "assets/images/outfit-400.webp 400w, assets/images/outfit.webp 650w",
+  "assets/images/knit-set.jpg": "assets/images/knit-set-400.webp 400w, assets/images/knit-set.webp 650w",
+  "assets/images/handbag.jpg": "assets/images/handbag-400.webp 400w, assets/images/handbag.webp 650w",
+  "assets/images/shoes.jpg": "assets/images/shoes-400.webp 400w, assets/images/shoes.webp 650w",
+  "assets/images/jewelry.jpg": "assets/images/jewelry-400.webp 400w, assets/images/jewelry.webp 650w"
+};
+function webpSrcsetAttrs(localPath) {
+  const set = WEBP_SRCSET[localPath];
+  return set ? ` srcset="${set}" sizes="(max-width: 640px) 45vw, 280px"` : "";
+}
+
+// SEO: clean product URL slug — must match tools/prerender.js productSlug() exactly.
+function productSlug(p) {
+  const name = String(p.name || "fashion-find").toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 60) || "fashion-find";
+  return `${name}-${String(p.id).slice(0, 8)}`;
+}
+
+// Clean page href: static products get /products/<slug>, demo fallbacks keep ?id=.
+function productPageHref(p) {
+  const id = String(p.id || "");
+  const isUuid = id.length >= 32 && id.includes("-");
+  return isUuid ? `products/${productSlug(p)}` : `product.html?id=${encodeURIComponent(id)}`;
+}
+
 function categoryLabel(category) {
   return category.charAt(0).toUpperCase() + category.slice(1);
 }
@@ -141,7 +172,8 @@ function altText(value) {
 function productCard(product) {
   const liked = wishlist.includes(product.id) ? "active" : "";
   const badge = product.badge ? `<span class="badge">${product.badge}</span>` : "";
-  const detailLink = `product.html?id=${encodeURIComponent(product.id)}`;
+  // Clean product URL (TASK 15) — must match tools/prerender.js productSlug() exactly.
+  const detailLink = productPageHref(product);
   // Fall back to the product detail page when no affiliate link exists yet.
   const productLink = product.link && product.link !== "#" ? product.link : detailLink;
   return `
@@ -150,7 +182,7 @@ function productCard(product) {
         ${badge}
         <button class="heart-btn ${liked}" type="button" data-heart="${product.id}" aria-label="Save ${product.name} to wishlist">♡</button>
         <a href="${detailLink}" target="_blank" rel="noopener" aria-label="Open ${product.name} details">
-          <img loading="lazy" src="${product.image}" alt="${altText(product.name)}" />
+          <img loading="lazy" src="${product.image}"${webpSrcsetAttrs(product.image)} alt="${altText(product.name)}" />
         </a>
       </div>
       <div class="product-body">
@@ -217,7 +249,7 @@ function renderSearch(query) {
 
   searchResults.innerHTML = matches.length
     ? matches.map((product) => `
-      <a class="search-result" href="product.html?id=${encodeURIComponent(product.id)}">
+      <a class="search-result" href="${productPageHref(product)}">
         <strong>${product.name}</strong>
         <span>${categoryLabel(product.category)} - ${product.price}</span>
       </a>

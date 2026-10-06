@@ -1,0 +1,6 @@
+# Cloudflare Pages custom headers (TASK 18: HSTS).
+/*
+  Strict-Transport-Security: max-age=15552000; includeSubDomains
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin

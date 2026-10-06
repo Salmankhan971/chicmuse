@@ -7,6 +7,24 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://chicmuse.saadsdam55.workers.dev/privacy.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://chicmuse.saadsdam55.workers.dev/disclosure.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://chicmuse.saadsdam55.workers.dev/contact.html</loc>
+    <lastmod>2026-10-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://chicmuse.saadsdam55.workers.dev/product.html?id=8207a125-61a8-4a1c-9c97-2749d913669f</loc>
     <lastmod>2026-09-10</lastmod>
     <changefreq>weekly</changefreq>

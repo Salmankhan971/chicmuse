@@ -141,8 +141,9 @@ function altText(value) {
 function productCard(product) {
   const liked = wishlist.includes(product.id) ? "active" : "";
   const badge = product.badge ? `<span class="badge">${product.badge}</span>` : "";
-  const productLink = product.link || "#";
   const detailLink = `product.html?id=${encodeURIComponent(product.id)}`;
+  // Fall back to the product detail page when no affiliate link exists yet.
+  const productLink = product.link && product.link !== "#" ? product.link : detailLink;
   return `
     <article class="product-card">
       <div class="product-image">
